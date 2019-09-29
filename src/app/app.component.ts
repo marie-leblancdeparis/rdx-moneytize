@@ -5,6 +5,7 @@ import { AmountChangeAction } from './actions/amount';
 
 import * as fromRoot from './reducers';
 import { Observable } from 'rxjs';
+import {CurrenciesUpdatedAction} from './actions/currency';
 
 @Component({
   selector: 'app-root',
@@ -18,16 +19,21 @@ export class AppComponent implements OnInit {
 
   constructor(public store: Store<fromRoot.State>) {
     this.amount$ = store.select(fromRoot.getAmountState);
-    this.currencyRate$ = store.select(fromRoot.getCurrencyRates);
+    this.currencyRates$ = store.select(fromRoot.getCurrencyRates);
   }
 
   onAMountChange(amount: string) {
-    const number = parseFloat(amount);
-    if (!isNaN(number)) this.store.dispatch(new AmountChangeAction(number));
+    const amountValue = parseFloat(amount);
+    if (!isNaN(amountValue)) {
+        this.store.dispatch(new AmountChangeAction(amountValue));
+    }
   }
 
   // Dispatch the Action
   ngOnInit() {
-    this.store.dispatch(new CurrenciesUpdatedAction());
+    const defaultCurency: Currency = {
+      code: 'EUR', value: 10
+    }
+    this.store.dispatch(new CurrenciesUpdatedAction([defaultCurency]));
   }
 }

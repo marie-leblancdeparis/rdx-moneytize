@@ -3,11 +3,11 @@ import * as fromAmount from './amount';
 import * as fromCurrency from './currency';
 
 export interface State {
-  amont: number,
+  amount: number;
   currencies: Currency[];
 }
 
-export const reducers {
+export const reducers = {
   amount: fromAmount.reducer,
   currencies: fromCurrency.reducer
 }
